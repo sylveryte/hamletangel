@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="5dp"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/task"
+        android:inputType="textMultiLine" />
+
+
+    <EditText
+        android:id="@+id/notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/notes"
+        android:inputType="textMultiLine" />
+
+    <TextView
+        android:id="@+id/difficulty_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/trivial"/>
+
+    <RatingBar
+        android:id="@+id/difficulty_bar"
+        style="@style/Widget.AppCompat.RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="false"
+        android:numStars="4"
+        android:stepSize="1"
+        android:rating="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorDatePickerButton"
+            android:clickable="true"
+            android:focusable="true"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="0" />
+
+        <Button
+            android:id="@+id/date_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="clear"
+            android:backgroundTint="@color/colorDateClearButton"
+            android:clickable="true"
+            android:focusable="true"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="0" />
+    </LinearLayout>
+
+    <Button
+         android:id="@+id/add"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="@string/add" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel" />
+
+</LinearLayout>
