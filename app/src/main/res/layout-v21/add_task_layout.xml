@@ -84,6 +84,7 @@
     <Button
         android:id="@+id/delete"
         android:layout_margin="3dp"
+        android:visibility="gone"
         android:backgroundTint="@color/colorDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
