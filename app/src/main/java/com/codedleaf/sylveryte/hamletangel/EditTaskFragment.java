@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,7 +54,7 @@ public class EditTaskFragment extends Fragment {
         else
         {
             mNew =true;
-            mHamletTask=new HamletTask();
+            mHamletTask=new HamletTask(UUID.randomUUID());
         }
     }
 
@@ -61,7 +62,7 @@ public class EditTaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v=inflater.inflate(R.layout.add_task_layout,container,false);
+        View v=inflater.inflate(R.layout.edit_task_layout,container,false);
 
         mTaskEditText = v.findViewById(R.id.task);
         mNotes= v.findViewById(R.id.notes);
@@ -133,7 +134,8 @@ public class EditTaskFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                         Log.d("maan","year : "+i+" month :"+i1+" day : "+i2);
-                        mHamletTask.setDate(i2+"/"+i1+1+"/"+i);
+                        i1+=1;
+                        mHamletTask.setDate(i2+"/"+i1+"/"+i);
 
                         mDate.setText(mHamletTask.getDate());
                         updateUi();
@@ -151,6 +153,10 @@ public class EditTaskFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
+                   if(TextUtils.isEmpty(mHamletTask.getTaskText())) {
+                       mTaskEditText.setError("Can't be empty!");
+                        return;
+                   }
                    AngelLab.getAngelLab(getActivity()).addUpdateTask(mHamletTask);
                    getActivity().onBackPressed();
                }

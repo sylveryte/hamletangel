@@ -109,7 +109,13 @@ public class TaskListFragment extends Fragment {
         {
             mHamletTask=task;
             mText.setText(task.getTaskText());
-            mNotes.setText(task.getNotes());
+
+            if(task.getNotes()==null || task.getNotes().trim().equals(""))
+                mNotes.setVisibility(View.GONE);
+            else {
+                mNotes.setVisibility(View.VISIBLE);
+                mNotes.setText(task.getNotes());
+            }
 
             String date=task.getDate();
             if(date==null)

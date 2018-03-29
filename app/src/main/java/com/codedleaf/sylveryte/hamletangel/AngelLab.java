@@ -1,11 +1,16 @@
 package com.codedleaf.sylveryte.hamletangel;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.widget.LinearLayout;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.location.Criteria;
 
+import com.codedleaf.sylveryte.hamletangel.HamletTaskDbSchema.HamletTaskTable;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +23,8 @@ class AngelLab {
     private static AngelLab sAngelLab;
 
     private ArrayList<HamletTask> mTasks;
+    private Context mContext;
+    private SQLiteDatabase mDatabase;
 
     static AngelLab getAngelLab(Context context)
     {
@@ -28,16 +35,21 @@ class AngelLab {
 
     private AngelLab(Context context)
     {
-        mTasks=new ArrayList<>();
-        for (int i=1;i<22;i++)
-        {
+        mContext=context;
+        mDatabase=new HamletTaskBaseHelper(mContext).getWritableDatabase();
 
-            HamletTask task=new HamletTask();
-            if(i%2==0)
-                task.setUploaded();
-            task.setTaskText("Task #"+i);
-            task.setNotes("The note about this task is something"+i+21);
-            mTasks.add(task);
+        mTasks= new ArrayList<>();
+
+
+        HamletTaskCursorWrapper cursor = queryHamletTasks(null,null);
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()){
+                mTasks.add(0,cursor.getHamletTask());
+                cursor.moveToNext();
+            }
+        }finally {
+            cursor.close();
         }
     }
 
@@ -47,7 +59,11 @@ class AngelLab {
         {
             int i=getIndexOf(task);
             if(i==-1)
+            {
                 mTasks.add(0,task);
+                mDatabase.insert(HamletTaskTable.NAME,null,getContentValues(task));
+            }
+
             else
                 update(task,i);
         }
@@ -56,6 +72,9 @@ class AngelLab {
     private void update(HamletTask task,int index) {
         mTasks.remove(index);
         mTasks.add(0,task);
+        mDatabase.update(HamletTaskTable.NAME,getContentValues(task),
+                HamletTaskTable.Cols.UUID+" = ?",
+                new String[]{task.getId().toString()});
     }
 
     private int getIndexOf(HamletTask task)
@@ -79,21 +98,14 @@ class AngelLab {
 
     ArrayList<HamletTask> getTasks()
     {
-        ArrayList<HamletTask> tasks= new ArrayList<>();
-
-        for (HamletTask task : mTasks) {
-            if(!task.isUploaded())
-                tasks.add(task);
-        }
-        for (HamletTask task : mTasks) {
-            if(task.isUploaded())
-               tasks.add(task);
-        }
-        return tasks;
+        return new ArrayList<>(mTasks);
     }
 
     void deleteTask(HamletTask hamletTask) {
         mTasks.remove(getIndexOf(hamletTask));
+        mDatabase.delete(HamletTaskTable.NAME,
+                HamletTaskTable.Cols.UUID+" = ?",
+                new String[]{hamletTask.getId().toString()});
     }
 
     public void deleteUploadedTasks() {
@@ -101,7 +113,44 @@ class AngelLab {
         for (HamletTask task :
                 hamletTasks) {
             if (task.isUploaded())
-                mTasks.remove(task);
+            {
+                deleteTask(task);
+            }
+
         }
+    }
+
+    //Database stuff
+
+    private static ContentValues getContentValues(HamletTask hamletTask){
+        ContentValues values = new ContentValues();
+        values.put(HamletTaskTable.Cols.UUID,hamletTask.getId().toString());
+        values.put(HamletTaskTable.Cols.DIFFICULTY,hamletTask.getDifficulty());
+        values.put(HamletTaskTable.Cols.DUE_DATE,hamletTask.getDate());
+        values.put(HamletTaskTable.Cols.TEXT,hamletTask.getTaskText());
+        values.put(HamletTaskTable.Cols.NOTES,hamletTask.getNotes());
+        values.put(HamletTaskTable.Cols.TYPE,hamletTask.getTaskType());
+        values.put(HamletTaskTable.Cols.UPLOADED,hamletTask.isUploaded()?1:0);
+        values.put(HamletTaskTable.Cols.TASKID ,hamletTask.getTaskId());
+        values.put(HamletTaskTable.Cols.TIMESTAMP,
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        return values;
+    }
+
+    private HamletTaskCursorWrapper queryHamletTasks(String whereClause, String[] whereArgs){
+        Cursor cursor=mDatabase.query(
+                HamletTaskTable.NAME,
+                null,
+                whereClause,
+                whereArgs,
+//                null,
+                null,
+//                null
+//                HamletTaskTable.Cols.UPLOADED,
+                null,
+                HamletTaskTable.Cols.TIMESTAMP +" asc "
+//                null
+        );
+        return new HamletTaskCursorWrapper(cursor);
     }
 }

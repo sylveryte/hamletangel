@@ -1,12 +1,10 @@
 package com.codedleaf.sylveryte.hamletangel;
 
-import android.util.Log;
-
-import java.util.Date;
 import java.util.UUID;
 
 /**
  * Created by sylveryte on 25/3/18.
+ * Yay!
  */
 
 public class HamletTask {
@@ -20,7 +18,6 @@ public class HamletTask {
     public static final String STR_EASY="Easy";
     public static final String STR_MEDIUM="Medium";
     public static final String STR_HARD="Hard";
-
     public static final String TODO="todo";
 
     private UUID mId;
@@ -29,18 +26,15 @@ public class HamletTask {
     private String mNotes;
     private int mDifficulty;
     private boolean mUploaded;
-
     private String mDate;
-
     private String mTaskId;
 
-    public HamletTask()
+    HamletTask(UUID uuid)
     {
-        mId=UUID.randomUUID();
+        mId=uuid;
         mTaskType=TODO;
         mDifficulty=EASY;
         mUploaded=false;
-        mDate=null;
     }
 
     @Override
@@ -56,7 +50,7 @@ public class HamletTask {
                 '}';
     }
 
-    public String getDifficultyString()
+    String getDifficultyString()
     {
         switch (mDifficulty){
             case 1:return STR_TRIVIAL;
@@ -113,10 +107,6 @@ public class HamletTask {
         return mDate;
     }
 
-    public void setId(UUID id) {
-        mId = id;
-    }
-
     public UUID getId() {
         return mId;
     }
@@ -149,12 +139,11 @@ public class HamletTask {
 
     public HamletTask getCopy()
     {
-        HamletTask hamletTask=new HamletTask();
+        HamletTask hamletTask=new HamletTask(mId);
         hamletTask.setDifficulty(getDifficulty());
         hamletTask.setNotes(getNotes());
         hamletTask.setTaskText(getTaskText());
         hamletTask.setDate(getDate());
-        hamletTask.mId=mId;
         hamletTask.setTaskType(getTaskType());
         hamletTask.setUploadedValue(isUploaded());
         return hamletTask;
