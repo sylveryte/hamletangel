@@ -8,6 +8,8 @@ import android.location.Criteria;
 
 import com.codedleaf.sylveryte.hamletangel.HamletTaskDbSchema.HamletTaskTable;
 
+import org.json.JSONException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +32,13 @@ class AngelLab {
     {
         if(sAngelLab==null)
             sAngelLab=new AngelLab(context);
+
+        try {
+            Postmaster.login("pneumazen","manoffire");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return sAngelLab;
     }
 
