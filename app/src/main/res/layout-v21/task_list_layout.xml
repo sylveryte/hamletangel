@@ -15,7 +15,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    android:background="@color/colorFabButtonColor"
+    android:backgroundTint="@color/colorFabButtonColor"
     android:src="@drawable/plus"
     android:clickable="true"
     android:layout_gravity="bottom|end"

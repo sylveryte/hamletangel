@@ -7,9 +7,10 @@
     <color name="colorUploaded">#3f4aff51</color>
     <color name="colorDatePickerButton">#24aeaeae</color>
     <color name="colorDateClearButton">#e49c9b</color>
-    <color name="colorTrivial">#9acab8</color>
+    <color name="colorTrivial">#48c8fa</color>
     <color name="colorEasy">#48be4a</color>
     <color name="colorMedium">#f1ee4d</color>
     <color name="colorHard">#ff5025</color>
     <color name="colorDelete">#ff4c4c</color>
+    <color name="colorFabButtonColor">#247089</color>
 </resources>
