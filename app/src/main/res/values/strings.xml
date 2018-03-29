@@ -13,4 +13,5 @@
     <string name="setdate">Set Date</string>
     <string name="modify">Modify</string>
     <string name="Delete">Delete</string>
+    <string name="delete_uploaded_tasks">Delete Uploaded</string>
 </resources>

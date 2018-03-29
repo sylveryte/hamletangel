@@ -22,9 +22,11 @@ import java.util.UUID;
 
 /**
  * Created by sylveryte on 25/3/18.
+ * Yay!
  */
 
 public class EditTaskFragment extends Fragment {
+    public static final java.lang.String ARG_UUID_STRING_CODE = "UUID_STRING_COAD";
     private HamletTask mHamletTask;
 
     private EditText mTaskEditText;
@@ -32,10 +34,6 @@ public class EditTaskFragment extends Fragment {
     private TextView mDifficultyLabel;
     private RatingBar mDifficultyBar;
     private Button mDate;
-    private Button mAddButton;
-    private Button mCancelButton;
-    private Button mDeleteButton;
-    private Button mDateClear;
 
     private Boolean mNew;
 
@@ -45,7 +43,7 @@ public class EditTaskFragment extends Fragment {
         super.onCreate(savedInstanceState);
 //        mHamletTask=new HamletTask();
 
-        String uuid_string=getActivity().getIntent().getStringExtra(EditActivity.UUID_STRING_CODE_NAME);
+        String uuid_string=getArguments().getString(ARG_UUID_STRING_CODE);
         if(uuid_string!=null)
         {
             UUID uuid=UUID.fromString(uuid_string);
@@ -70,10 +68,10 @@ public class EditTaskFragment extends Fragment {
         mDifficultyLabel=v.findViewById(R.id.duedate);
         mDifficultyBar=v.findViewById(R.id.difficulty_bar);
         mDate=v.findViewById(R.id.date);
-        mDateClear=v.findViewById(R.id.date_clear);
-        mAddButton=v.findViewById(R.id.add);
-        mCancelButton=v.findViewById(R.id.cancel);
-        mDeleteButton=v.findViewById(R.id.delete);
+        Button dateClear = v.findViewById(R.id.date_clear);
+        Button addButton = v.findViewById(R.id.add);
+        Button cancelButton = v.findViewById(R.id.cancel);
+        Button deleteButton = v.findViewById(R.id.delete);
 
         mTaskEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -116,7 +114,7 @@ public class EditTaskFragment extends Fragment {
             }
         });
 
-        mDateClear.setOnClickListener(new View.OnClickListener() {
+        dateClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mHamletTask.setDate(null);
@@ -147,17 +145,17 @@ public class EditTaskFragment extends Fragment {
         });
         if(!mNew)
         {
-            mAddButton.setText(R.string.modify);
-            mDeleteButton.setVisibility(View.VISIBLE);
+            addButton.setText(R.string.modify);
+            deleteButton.setVisibility(View.VISIBLE);
         }
-        mAddButton.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View view) {
                    AngelLab.getAngelLab(getActivity()).addUpdateTask(mHamletTask);
                    getActivity().onBackPressed();
                }
            });
-           mCancelButton.setOnClickListener(new View.OnClickListener() {
+           cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                    Log.d("maan", "Just cancel it maaan");
@@ -165,7 +163,7 @@ public class EditTaskFragment extends Fragment {
                 }
             });
 
-           mDeleteButton.setOnClickListener(new View.OnClickListener() {
+           deleteButton.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
                    AngelLab.getAngelLab(getActivity()).deleteTask(mHamletTask);

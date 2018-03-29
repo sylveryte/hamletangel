@@ -9,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -29,6 +32,25 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.tasklistmenu,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.delete_uploaded_tasks:
+                AngelLab.getAngelLab(getActivity()).deleteUploadedTasks();
+                updateUI();
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 
     @Nullable
@@ -49,8 +71,15 @@ public class TaskListFragment extends Fragment {
         AngelLab lab=AngelLab.getAngelLab(getActivity());
         List<HamletTask> hamletTasks= lab.getTasks();
 
-        mAdapter=new TaskAdapter(hamletTasks);
-        mRecyclerView.setAdapter(mAdapter);
+        if(mAdapter==null)
+        {
+            mAdapter=new TaskAdapter(hamletTasks);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+        else {
+            mAdapter.updateTasks(hamletTasks);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     private class TaskHolder extends RecyclerView.ViewHolder{
@@ -61,7 +90,7 @@ public class TaskListFragment extends Fragment {
         private LinearLayout mDifficultyIndicator;
         private View mView;
 
-        public TaskHolder(View itemView) {
+        TaskHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -76,7 +105,7 @@ public class TaskListFragment extends Fragment {
             mView=itemView;
         }
 
-        public void updateView(HamletTask task)
+        void updateView(HamletTask task)
         {
             mHamletTask=task;
             mText.setText(task.getTaskText());
@@ -110,7 +139,12 @@ public class TaskListFragment extends Fragment {
 
     private class TaskAdapter extends RecyclerView.Adapter<TaskHolder>{
         private List<HamletTask> mTasks;
-        public TaskAdapter(List<HamletTask> tasks) {
+        TaskAdapter(List<HamletTask> tasks) {
+            mTasks=tasks;
+        }
+
+        void updateTasks(List<HamletTask> tasks)
+        {
             mTasks=tasks;
         }
 
@@ -145,7 +179,7 @@ public class TaskListFragment extends Fragment {
     {
         Intent i=new Intent(context,EditActivity.class);
         if(uuid!=null)
-            i.putExtra(EditActivity.UUID_STRING_CODE_NAME,uuid.toString());
+            i.putExtra(EditTaskFragment.ARG_UUID_STRING_CODE,uuid.toString());
         return i;
     }
 
