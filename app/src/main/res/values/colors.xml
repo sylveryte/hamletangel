@@ -3,8 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorNotUploaded">#6b6b6b</color>
-    <color name="colorUploaded">#2e712f</color>
-    <color name="colorDatePickerButton">#eccfbc</color>
+    <color name="colorNotUploaded">#ffffff</color>
+    <color name="colorUploaded">#c8fdc9</color>
+    <color name="colorDatePickerButton">#ffffff</color>
     <color name="colorDateClearButton">#e49c9b</color>
+    <color name="colorTrivial">#9acab8</color>
+    <color name="colorEasy">#48be4a</color>
+    <color name="colorMedium">#f1ee4d</color>
+    <color name="colorHard">#ff5025</color>
+    <color name="colorDelete">#ff4c4c</color>
 </resources>

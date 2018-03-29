@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/colorDatePickerButton"
+            android:backgroundTint="@color/colorDatePickerButton"
             android:clickable="true"
             android:focusable="true"
             android:shadowDx="0"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="clear"
-            android:background="@color/colorDateClearButton"
+            android:backgroundTint="@color/colorDateClearButton"
             android:clickable="true"
             android:focusable="true"
             android:shadowDx="0"
@@ -84,7 +84,7 @@
     <Button
         android:id="@+id/delete"
         android:layout_margin="3dp"
-        android:background="@color/colorDelete"
+        android:backgroundTint="@color/colorDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/Delete" />

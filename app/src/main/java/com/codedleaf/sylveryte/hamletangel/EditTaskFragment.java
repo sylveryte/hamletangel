@@ -26,7 +26,6 @@ import java.util.UUID;
 
 public class EditTaskFragment extends Fragment {
     private HamletTask mHamletTask;
-    private UUID mUUID;
 
     private EditText mTaskEditText;
     private EditText mNotes;
@@ -35,17 +34,29 @@ public class EditTaskFragment extends Fragment {
     private Button mDate;
     private Button mAddButton;
     private Button mCancelButton;
+    private Button mDeleteButton;
     private Button mDateClear;
+
+    private Boolean mNew;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        mHamletTask=new HamletTask();
-        Log.d("maan","Creating new Hamlet");
-        Bundle bundle=getArguments();
-        mUUID=UUID.fromString((String)bundle.get(HamletTask.ID));
-        mHamletTask=AngelLab.getAngelLab(getActivity()).getTaskById(mUUID);
+
+        String uuid_string=getActivity().getIntent().getStringExtra(EditActivity.UUID_STRING_CODE_NAME);
+        if(uuid_string!=null)
+        {
+            UUID uuid=UUID.fromString(uuid_string);
+            mHamletTask=AngelLab.getAngelLab(getActivity()).getTaskCopyById(uuid);
+            mNew=false;
+        }
+        else
+        {
+            mNew =true;
+            mHamletTask=new HamletTask();
+        }
     }
 
     @Nullable
@@ -56,12 +67,13 @@ public class EditTaskFragment extends Fragment {
 
         mTaskEditText = v.findViewById(R.id.task);
         mNotes= v.findViewById(R.id.notes);
-        mDifficultyLabel=v.findViewById(R.id.difficulty_label);
+        mDifficultyLabel=v.findViewById(R.id.duedate);
         mDifficultyBar=v.findViewById(R.id.difficulty_bar);
         mDate=v.findViewById(R.id.date);
         mDateClear=v.findViewById(R.id.date_clear);
         mAddButton=v.findViewById(R.id.add);
         mCancelButton=v.findViewById(R.id.cancel);
+        mDeleteButton=v.findViewById(R.id.delete);
 
         mTaskEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -114,11 +126,6 @@ public class EditTaskFragment extends Fragment {
         mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//                FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                DialogFragment newFragment = new DatePickerDialogFragment(this);
-//                newFragment.show(ft, "dialog");
-
                 final java.util.Calendar c = java.util.Calendar.getInstance();
                 int year = c.get(java.util.Calendar.YEAR);
                 int month = c.get(java.util.Calendar.MONTH);
@@ -138,26 +145,33 @@ public class EditTaskFragment extends Fragment {
                 dialog.show();
             }
         });
+        if(!mNew)
+        {
+            mAddButton.setText(R.string.modify);
+            mDeleteButton.setVisibility(View.VISIBLE);
+        }
         mAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("maan",mHamletTask.toString());
-            }
-        });
-        mCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("maan","Just cancel it maaan");
-            }
-        });
+               @Override
+               public void onClick(View view) {
+                   AngelLab.getAngelLab(getActivity()).addUpdateTask(mHamletTask);
+                   getActivity().onBackPressed();
+               }
+           });
+           mCancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   Log.d("maan", "Just cancel it maaan");
+                    getActivity().onBackPressed();
+                }
+            });
 
-        mAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("maan",mHamletTask.toString()+"\nid="+mUUID.toString());
-            }
-        });
-
+           mDeleteButton.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   AngelLab.getAngelLab(getActivity()).deleteTask(mHamletTask);
+                   getActivity().onBackPressed();
+               }
+           });
         return v;
     }
 
@@ -183,7 +197,11 @@ public class EditTaskFragment extends Fragment {
 
     private void updateUi()
     {
-        mDate.setText(mHamletTask.getDate());
+        String date=mHamletTask.getDate();
+        if(date==null)
+            mDate.setText(R.string.setdate);
+        else
+            mDate.setText(date);
         mTaskEditText.setText(mHamletTask.getTaskText());
         mNotes.setText(mHamletTask.getNotes());
         mDifficultyBar.setRating(mHamletTask.getDifficulty());

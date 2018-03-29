@@ -10,18 +10,18 @@ import java.util.UUID;
  */
 
 public class HamletTask {
-    public static String ID="HAMLET_ID";
+//    public static String ID="HAMLET_ID";
 
-    public static int TRIVIAL=1;
-    public static String STR_TRIVIAL="Trivial";
-    public static int EASY=2;
-    public static String STR_EASY="Easy";
-    public static int MEDIUM=3;
-    public static String STR_MEDIUM="Medium";
-    public static int HARD=4;
-    public static String STR_HARD="Hard";
+    public static final int TRIVIAL=1;
+    public static final int EASY=2;
+    public static final int MEDIUM=3;
+    public static final int HARD=4;
+    public static final String STR_TRIVIAL="Trivial";
+    public static final String STR_EASY="Easy";
+    public static final String STR_MEDIUM="Medium";
+    public static final String STR_HARD="Hard";
 
-    public static String TODO="todo";
+    public static final String TODO="todo";
 
     private UUID mId;
     private String mTaskText;
@@ -61,7 +61,7 @@ public class HamletTask {
         switch (mDifficulty){
             case 1:return STR_TRIVIAL;
             case 2:return STR_EASY;
-            case 3:return STR_EASY;
+            case 3:return STR_MEDIUM;
             case 4:return STR_HARD;
         }
         return STR_EASY;
@@ -97,10 +97,10 @@ public class HamletTask {
     public double getHabiticaDifficulty()
     {
         switch (mDifficulty){
-            case 1:return 0.1;
-            case 2:return 1;
-            case 3:return 1.5;
-            case 4:return 2;
+            case TRIVIAL:return 0.1;
+            case EASY:return 1;
+            case MEDIUM:return 1.5;
+            case HARD:return 2;
         }
         return 1;
     }
@@ -110,9 +110,11 @@ public class HamletTask {
     }
 
     public String getDate() {
-        if(mDate==null)
-            return "Set Date";
         return mDate;
+    }
+
+    public void setId(UUID id) {
+        mId = id;
     }
 
     public UUID getId() {
@@ -127,10 +129,14 @@ public class HamletTask {
         mUploaded = true;
     }
 
+    private void setUploadedValue(boolean uploaded)
+    {
+        mUploaded=uploaded;
+    }
+
     public void setDate(String date)
     {
         mDate = date;
-        Log.d("maan","someone changed the date");
     }
 
     public String getTaskId() {
@@ -139,5 +145,18 @@ public class HamletTask {
 
     public void setTaskId(String taskId) {
         mTaskId = taskId;
+    }
+
+    public HamletTask getCopy()
+    {
+        HamletTask hamletTask=new HamletTask();
+        hamletTask.setDifficulty(getDifficulty());
+        hamletTask.setNotes(getNotes());
+        hamletTask.setTaskText(getTaskText());
+        hamletTask.setDate(getDate());
+        hamletTask.mId=mId;
+        hamletTask.setTaskType(getTaskType());
+        hamletTask.setUploadedValue(isUploaded());
+        return hamletTask;
     }
 }
