@@ -1,24 +1,25 @@
 package com.codedleaf.sylveryte.hamletangel;
 
 import android.content.Context;
-import android.util.Log;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 /**
  * Created by sylveryte on 25/3/18.
+ * Yay!
  */
 
-public class AngelLab {
+class AngelLab {
     private static AngelLab sAngelLab;
 
     private ArrayList<HamletTask> mTasks;
 
-    public static AngelLab getAngelLab(Context context)
+    static AngelLab getAngelLab(Context context)
     {
         if(sAngelLab==null)
             sAngelLab=new AngelLab(context);
@@ -40,7 +41,7 @@ public class AngelLab {
         }
     }
 
-    public void addUpdateTask(HamletTask task)
+    void addUpdateTask(HamletTask task)
     {
         if(task!=null)
         {
@@ -66,7 +67,7 @@ public class AngelLab {
         return -1;
     }
 
-    public HamletTask getTaskCopyById(UUID uuid)
+    HamletTask getTaskCopyById(UUID uuid)
     {
         for(HamletTask hamletTask:mTasks)
         {
@@ -76,7 +77,7 @@ public class AngelLab {
         return null;
     }
 
-    public ArrayList<HamletTask> getTasks()
+    ArrayList<HamletTask> getTasks()
     {
         ArrayList<HamletTask> tasks= new ArrayList<>();
 
@@ -91,7 +92,16 @@ public class AngelLab {
         return tasks;
     }
 
-    public void deleteTask(HamletTask hamletTask) {
+    void deleteTask(HamletTask hamletTask) {
         mTasks.remove(getIndexOf(hamletTask));
+    }
+
+    public void deleteUploadedTasks() {
+        List<HamletTask> hamletTasks=new ArrayList<>(mTasks);
+        for (HamletTask task :
+                hamletTasks) {
+            if (task.isUploaded())
+                mTasks.remove(task);
+        }
     }
 }

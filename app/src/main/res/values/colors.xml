@@ -3,9 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorNotUploaded">#ffffff</color>
-    <color name="colorUploaded">#c8fdc9</color>
-    <color name="colorDatePickerButton">#ffffff</color>
+    <color name="colorNotUploaded">#41414141</color>
+    <color name="colorUploaded">#3f4aff51</color>
+    <color name="colorDatePickerButton">#24aeaeae</color>
     <color name="colorDateClearButton">#e49c9b</color>
     <color name="colorTrivial">#9acab8</color>
     <color name="colorEasy">#48be4a</color>
