@@ -43,8 +43,7 @@ public class TaskListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.delete_uploaded_tasks:
                 AngelLab.getAngelLab(getActivity()).deleteUploadedTasks();
                 updateUI();
