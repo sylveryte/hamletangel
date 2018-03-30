@@ -12,12 +12,12 @@ import java.util.UUID;
  * Yay!
  */
 
-public class HamletTaskCursorWrapper extends CursorWrapper {
-    public HamletTaskCursorWrapper(Cursor cursor) {
+class HamletTaskCursorWrapper extends CursorWrapper {
+    HamletTaskCursorWrapper(Cursor cursor) {
         super(cursor);
     }
 
-    public HamletTask getHamletTask()
+    HamletTask getHamletTask()
     {
         String uuidString= getString(getColumnIndex(HamletTaskTable.Cols.UUID));
         String task= getString(getColumnIndex(HamletTaskTable.Cols.TEXT));

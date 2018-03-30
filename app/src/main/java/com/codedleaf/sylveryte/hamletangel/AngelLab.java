@@ -42,7 +42,7 @@ class AngelLab {
         mTasks= new ArrayList<>();
         mUpdatables=new ArrayList<>();
 
-        HamletTaskCursorWrapper cursor = queryHamletTasks(null,null);
+        HamletTaskCursorWrapper cursor = queryHamletTasks();
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()){
@@ -109,7 +109,7 @@ class AngelLab {
                 new String[]{hamletTask.getId().toString()});
     }
 
-    public void deleteUploadedTasks() {
+    void deleteUploadedTasks() {
         List<HamletTask> hamletTasks=new ArrayList<>(mTasks);
         for (HamletTask task :
                 hamletTasks) {
@@ -138,12 +138,12 @@ class AngelLab {
         return values;
     }
 
-    private HamletTaskCursorWrapper queryHamletTasks(String whereClause, String[] whereArgs){
+    private HamletTaskCursorWrapper queryHamletTasks(){
         Cursor cursor=mDatabase.query(
                 HamletTaskTable.NAME,
                 null,
-                whereClause,
-                whereArgs,
+                null,
+                null,
 //                null,
                 null,
 //                null
@@ -164,14 +164,14 @@ class AngelLab {
         return hamletTasks;
     }
 
-    public void updateUis() {
+    void updateUis() {
         for (AngelListUpdatable updatable:mUpdatables
              ) {
             updatable.updateUiFromLab();
         }
     }
 
-    public void addMeForUpdate(AngelListUpdatable updatable)
+    void addMeForUpdate(AngelListUpdatable updatable)
     {
         mUpdatables.add(updatable);
     }

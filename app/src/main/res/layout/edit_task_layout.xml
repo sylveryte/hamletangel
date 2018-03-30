@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:padding="5dp"
-    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/task"
+<ScrollView android:id="@+id/login_form"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/task"
-        android:inputType="textMultiLine" />
+        android:padding="5dp"
+        android:layout_height="wrap_content">
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/task"
+                android:inputType="textMultiLine" />
+        </android.support.design.widget.TextInputLayout>
 
-    <EditText
-        android:id="@+id/notes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/notes"
-        android:inputType="textMultiLine" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/notes"
+                android:inputType="textMultiLine" />
+        </android.support.design.widget.TextInputLayout>
 
     <TextView
         android:id="@+id/duedate"
@@ -90,5 +103,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/Delete" />
+    </LinearLayout>
+</ScrollView>
 
-</LinearLayout>

@@ -25,20 +25,20 @@ import java.util.List;
 public class PostOffice extends AbstractAccountAuthenticator {
 
 
-    public static final String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
-    public static final String ARG_AUTH_TYPE = "AUTH_TYPE";
-    public static final String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_NEW_ACCOUNT";
+    private static final String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
+    private static final String ARG_AUTH_TYPE = "AUTH_TYPE";
+    static final String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_NEW_ACCOUNT";
 
-    public static final String ACCOUNT_TYPE = "com.codedleaf.habitica";
-    public static final String AUTH_ID = "ACCOUNT_API_KEY";
-    public static final String AUTH_TOKEN = "ACCOUNT_TOKEN";
+    static final String ACCOUNT_TYPE = "com.codedleaf.habitica";
+    static final String AUTH_ID = "ACCOUNT_API_KEY";
+    static final String AUTH_TOKEN = "ACCOUNT_TOKEN";
 
     private String mAuthId;
     private String mAuthToken;
 
     private Context mContext;
 
-    public PostOffice(Context context) {
+    PostOffice(Context context) {
         super(context);
         mContext=context;
     }
@@ -145,7 +145,7 @@ public class PostOffice extends AbstractAccountAuthenticator {
         return future;
     }
 
-    void getTokens(Activity activity)
+    private void getTokens(Activity activity)
     {
         getTokenForAccountCreateIfNeeded(ACCOUNT_TYPE,AUTH_ID,activity);
         getTokenForAccountCreateIfNeeded(ACCOUNT_TYPE,AUTH_TOKEN,activity);
@@ -156,6 +156,7 @@ public class PostOffice extends AbstractAccountAuthenticator {
             return;
         String key=bundle.getString(AccountManager.KEY_AUTHTOKEN);
         String type=bundle.getString(ARG_AUTH_TYPE);
+        assert type != null;
         if(type.equals(AUTH_ID))
             mAuthId=key;
         else
@@ -182,7 +183,6 @@ public class PostOffice extends AbstractAccountAuthenticator {
                 waitsec--;
                 try {
                     Thread.sleep(1000);
-                    Log.d("posto","waiting "+String.valueOf(waitsec));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -198,14 +198,9 @@ public class PostOffice extends AbstractAccountAuthenticator {
                     for (HamletTask task :
                             lists[0]) {
                         String result=Postmaster.uploadTask(task,mAuthId,mAuthToken);
-                        if(result==null) {
-                            Log.d("posto","failed "+task.toString());
-                        }
-                        else
-                        {
-                            task.setUploaded();
+                        if(result!=null) {
+                           task.setUploaded();
                             task.setTaskId(result);
-                            Log.d("posto","uploded "+task.toString());
                         }
                     }
                 }

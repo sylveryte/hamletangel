@@ -5,20 +5,20 @@ package com.codedleaf.sylveryte.hamletangel;
  * Yay!
  */
 
-public class HamletTaskDbSchema {
-    public static final class HamletTaskTable{
-        public static final String NAME="tasks";
+class HamletTaskDbSchema {
+    static final class HamletTaskTable{
+        static final String NAME="tasks";
 
-        public static final class Cols{
-            public static final String UUID = "uuid";
-            public static final String TEXT = "text";
-            public static final String TYPE = "type";
-            public static final String NOTES = "notes";
-            public static final String DIFFICULTY = "difficulty";
-            public static final String UPLOADED = "uploaded";
-            public static final String DUE_DATE = "due_date";
-            public static final String TASKID = "taskid";
-            public static final String TIMESTAMP = "local_timestamp";
+        static final class Cols{
+            static final String UUID = "uuid";
+            static final String TEXT = "text";
+            static final String TYPE = "type";
+            static final String NOTES = "notes";
+            static final String DIFFICULTY = "difficulty";
+            static final String UPLOADED = "uploaded";
+            static final String DUE_DATE = "due_date";
+            static final String TASKID = "taskid";
+            static final String TIMESTAMP = "local_timestamp";
         }
     }
 }

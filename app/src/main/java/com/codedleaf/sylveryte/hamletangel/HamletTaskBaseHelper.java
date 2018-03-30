@@ -15,7 +15,7 @@ public class HamletTaskBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION=1;
     private static final String DATABASE_NAME="hamletdatabase.db";
 
-    public HamletTaskBaseHelper(Context context){
+    HamletTaskBaseHelper(Context context){
         super(context,DATABASE_NAME,null,VERSION);
     }
 

@@ -34,9 +34,6 @@ class Postmaster {
     private static final String DATE="date";
     private static final String PRIORITY="priority";
 
-    private static final String REMINDERS="reminders";
-
-
 
     static String uploadTask(HamletTask task,String accKey, String apiToken)
     {
@@ -57,7 +54,6 @@ class Postmaster {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.d("posto","suuuuuccccss"+response.toString());
                 try {
                     results[0]=response.getString("success");
                     results[1]=response.getJSONObject("data").getString("id");
@@ -69,7 +65,6 @@ class Postmaster {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-                Log.d("posto","fffffffffail"+errorResponse.toString());
                 results[0]="false";
                 results[1]=null;
             }
@@ -104,8 +99,6 @@ class Postmaster {
                     results[0] = String.valueOf(true);
                     results[1] = id;
                     results[2] = apiToken;
-
-                    Log.d("posto","id "+id+" token "+apiToken);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -117,8 +110,6 @@ class Postmaster {
 
                 results[0] = String.valueOf(false);
                 results[1] = errorResponse.toString();
-
-                Log.d("posto",errorResponse.toString());
             }
         });
         return results;

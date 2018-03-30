@@ -10,15 +10,15 @@ import java.util.UUID;
 public class HamletTask {
 //    public static String ID="HAMLET_ID";
 
-    public static final int TRIVIAL=1;
-    public static final int EASY=2;
-    public static final int MEDIUM=3;
-    public static final int HARD=4;
-    public static final String STR_TRIVIAL="Trivial";
-    public static final String STR_EASY="Easy";
-    public static final String STR_MEDIUM="Medium";
-    public static final String STR_HARD="Hard";
-    public static final String TODO="todo";
+    private static final int TRIVIAL=1;
+    private static final int EASY=2;
+    private static final int MEDIUM=3;
+    private static final int HARD=4;
+    private static final String STR_TRIVIAL="Trivial";
+    private static final String STR_EASY="Easy";
+    private static final String STR_MEDIUM="Medium";
+    private static final String STR_HARD="Hard";
+    private static final String TODO="todo";
 
     private UUID mId;
     private String mTaskText;
@@ -60,19 +60,19 @@ public class HamletTask {
         }
         return STR_EASY;
     }
-    public String getTaskText() {
+    String getTaskText() {
         return mTaskText;
     }
 
-    public void setTaskText(String taskText) {
+    void setTaskText(String taskText) {
         mTaskText = taskText;
     }
 
-    public String getTaskType() {
+    String getTaskType() {
         return mTaskType;
     }
 
-    public void setTaskType(String taskType) {
+    void setTaskType(String taskType) {
         mTaskType = taskType;
     }
 
@@ -84,11 +84,11 @@ public class HamletTask {
         mNotes = notes;
     }
 
-    public int getDifficulty() {
+    int getDifficulty() {
         return mDifficulty;
     }
 
-    public double getHabiticaDifficulty()
+    double getHabiticaDifficulty()
     {
         switch (mDifficulty){
             case TRIVIAL:return 0.1;
@@ -99,7 +99,7 @@ public class HamletTask {
         return 1;
     }
 
-    public void setDifficulty(int difficulty) {
+    void setDifficulty(int difficulty) {
         mDifficulty = difficulty;
     }
 
@@ -111,11 +111,11 @@ public class HamletTask {
         return mId;
     }
 
-    public boolean isUploaded() {
+    boolean isUploaded() {
         return mUploaded;
     }
 
-    public void setUploaded() {
+    void setUploaded() {
         mUploaded = true;
     }
 
@@ -129,15 +129,15 @@ public class HamletTask {
         mDate = date;
     }
 
-    public String getTaskId() {
+    String getTaskId() {
         return mTaskId;
     }
 
-    public void setTaskId(String taskId) {
+    void setTaskId(String taskId) {
         mTaskId = taskId;
     }
 
-    public HamletTask getCopy()
+    HamletTask getCopy()
     {
         HamletTask hamletTask=new HamletTask(mId);
         hamletTask.setDifficulty(getDifficulty());

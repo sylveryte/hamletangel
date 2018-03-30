@@ -133,7 +133,6 @@ public class EditTaskFragment extends Fragment {
                 Dialog dialog =new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        Log.d("maan","year : "+i+" month :"+i1+" day : "+i2);
                         i1+=1;
                         mHamletTask.setDate(i2+"/"+i1+"/"+i);
 
@@ -164,7 +163,6 @@ public class EditTaskFragment extends Fragment {
            cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   Log.d("maan", "Just cancel it maaan");
                     getActivity().onBackPressed();
                 }
             });
@@ -180,23 +178,9 @@ public class EditTaskFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.d("maan","saving");
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d("maan","just paused it maan");
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         updateUi();
-        Log.d("maan","just resumed it maan");
     }
 
     private void updateUi()
@@ -209,6 +193,5 @@ public class EditTaskFragment extends Fragment {
         mTaskEditText.setText(mHamletTask.getTaskText());
         mNotes.setText(mHamletTask.getNotes());
         mDifficultyBar.setRating(mHamletTask.getDifficulty());
-        Log.d("maan","updated UIII");
     }
 }
