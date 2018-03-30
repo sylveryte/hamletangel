@@ -6,4 +6,9 @@
         android:id="@+id/delete_uploaded_tasks"
         android:title="@string/delete_uploaded_tasks"
         app:showAsAction="never|withText"/>
+    <item
+        android:icon="@android:drawable/ic_menu_upload"
+        android:id="@+id/upload_tasks"
+        android:title="@string/upload_tasks"
+        app:showAsAction="never|withText"/>
 </menu>

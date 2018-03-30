@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.codedleaf.sylveryte.hamletangel">
-    <uses-permission android:name="android.permission.INTERNET">
-    </uses-permission>
+
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission
+        android:name="android.permission.MANAGE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,6 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".TaskListActivity"
             android:label="@string/title_activity_task"
@@ -20,11 +32,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:parentActivityName=".TaskListActivity"
             android:name=".EditActivity"
             android:label="@string/title_activity_edit"
+            android:parentActivityName=".TaskListActivity"
             android:theme="@style/Theme.AppCompat" />
+
+        <activity
+            android:name=".AuthenticatorActivity"
+            android:label="@string/title_activity_account_authenticator"
+            android:parentActivityName=".TaskListActivity"
+            android:theme="@style/Theme.AppCompat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codedleaf.sylveryte.hamletangel.TaskListActivity" />
+        </activity>
+
+        <service
+            android:name="com.codedleaf.sylveryte.hamletangel.PostofficeService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
     </application>
 
 </manifest>
