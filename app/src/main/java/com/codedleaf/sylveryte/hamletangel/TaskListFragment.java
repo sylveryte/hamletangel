@@ -25,7 +25,7 @@ import java.util.UUID;
  * Yay!
  */
 
-public class TaskListFragment extends Fragment {
+public class TaskListFragment extends Fragment implements AngelListUpdatable {
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
 
@@ -33,6 +33,8 @@ public class TaskListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        AngelLab.getAngelLab(getContext()).addMeForUpdate(this);
     }
 
     @Override
@@ -48,6 +50,16 @@ public class TaskListFragment extends Fragment {
                 AngelLab.getAngelLab(getActivity()).deleteUploadedTasks();
                 updateUI();
                 return true;
+            case R.id.upload_tasks:
+            {
+                PostOffice postOffice=new PostOffice(getContext());
+
+                List<HamletTask> tasks=AngelLab.getAngelLab(getContext()).getToBeUploadedTask();
+                if(tasks.size()>0) {
+                    postOffice.beginUpload(getActivity(),tasks);
+                }
+                return true;
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -80,6 +92,11 @@ public class TaskListFragment extends Fragment {
             mAdapter.updateTasks(hamletTasks);
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void updateUiFromLab() {
+        updateUI();
     }
 
     private class TaskHolder extends RecyclerView.ViewHolder{
@@ -194,4 +211,6 @@ public class TaskListFragment extends Fragment {
         super.onResume();
         updateUI();
     }
+
+
 }
