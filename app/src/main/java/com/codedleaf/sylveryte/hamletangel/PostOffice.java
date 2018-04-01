@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.List;
 
@@ -37,6 +36,7 @@ public class PostOffice extends AbstractAccountAuthenticator {
     private String mAuthToken;
 
     private Context mContext;
+    private boolean mGetToken;
 
     PostOffice(Context context) {
         super(context);
@@ -119,7 +119,7 @@ public class PostOffice extends AbstractAccountAuthenticator {
         return null;
     }
 
-    private AccountManagerFuture<Bundle> getTokenForAccountCreateIfNeeded(String accountType, final String authTokenType, Activity activity) {
+    private synchronized void getTokenForAccountCreateIfNeeded(String accountType, final String authTokenType, final Activity activity) {
         AccountManager accountManager=AccountManager.get(mContext);
         final AccountManagerFuture<Bundle> future = accountManager.getAuthTokenByFeatures(accountType, authTokenType, null, activity, null, null,
                 new AccountManagerCallback<Bundle>() {
@@ -134,7 +134,7 @@ public class PostOffice extends AbstractAccountAuthenticator {
                             res.putString(AccountManager.KEY_AUTHTOKEN,authtoken);
                             res.putString(ARG_AUTH_TYPE,authTokenType);
 
-                            setToken(res);
+                            setToken(res,activity);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -142,16 +142,14 @@ public class PostOffice extends AbstractAccountAuthenticator {
                     }
                 }
                 ,null);
-        return future;
     }
 
     private void getTokens(Activity activity)
     {
         getTokenForAccountCreateIfNeeded(ACCOUNT_TYPE,AUTH_ID,activity);
-        getTokenForAccountCreateIfNeeded(ACCOUNT_TYPE,AUTH_TOKEN,activity);
     }
 
-    private synchronized void setToken(final Bundle bundle) {
+    private synchronized void setToken(final Bundle bundle, Activity activity) {
         if (bundle==null||bundle.isEmpty())
             return;
         String key=bundle.getString(AccountManager.KEY_AUTHTOKEN);
@@ -161,6 +159,8 @@ public class PostOffice extends AbstractAccountAuthenticator {
             mAuthId=key;
         else
             mAuthToken=key;
+        if(mAuthToken==null)
+            getTokenForAccountCreateIfNeeded(ACCOUNT_TYPE,AUTH_TOKEN,activity);
     }
 
     void beginUpload(Activity activity, List<HamletTask> tasks)
