@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.List;
 
@@ -36,7 +37,6 @@ public class PostOffice extends AbstractAccountAuthenticator {
     private String mAuthToken;
 
     private Context mContext;
-    private boolean mGetToken;
 
     PostOffice(Context context) {
         super(context);
@@ -144,7 +144,20 @@ public class PostOffice extends AbstractAccountAuthenticator {
                 ,null);
     }
 
-    private void getTokens(Activity activity)
+    synchronized String getUserName(Activity activity)
+    {
+        AccountManager accountManager=AccountManager.get(activity);
+        Account[] accounts=accountManager.getAccountsByType(ACCOUNT_TYPE);
+        if(accounts.length==0)
+        {
+            getTokens(activity);
+            return null;
+        }
+
+        return accounts[0].name;
+    }
+
+    synchronized private void getTokens(Activity activity)
     {
         getTokenForAccountCreateIfNeeded(ACCOUNT_TYPE,AUTH_ID,activity);
     }

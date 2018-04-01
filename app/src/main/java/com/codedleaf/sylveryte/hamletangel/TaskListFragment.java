@@ -1,11 +1,15 @@
 package com.codedleaf.sylveryte.hamletangel;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,6 +33,7 @@ import java.util.UUID;
 public class TaskListFragment extends Fragment implements AngelListUpdatable {
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
+    private String mUsername;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +57,6 @@ public class TaskListFragment extends Fragment implements AngelListUpdatable {
                 updateUI();
                 return true;
             case R.id.upload_tasks:
-            {
                 PostOffice postOffice=new PostOffice(getContext());
 
                 List<HamletTask> tasks=AngelLab.getAngelLab(getContext()).getToBeUploadedTask();
@@ -59,7 +64,9 @@ public class TaskListFragment extends Fragment implements AngelListUpdatable {
                     postOffice.beginUpload(getActivity(),tasks);
                 }
                 return true;
-            }
+            case R.id.sign_out:
+                Toast.makeText(getContext(),"Go to Settings->Accounts. Remove from there.",Toast.LENGTH_LONG).show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -75,7 +82,16 @@ public class TaskListFragment extends Fragment implements AngelListUpdatable {
 
         updateUI();
 
+        //set username
+        mUsername = new PostOffice(getContext()).getUserName(getActivity());
+        android.support.v7.app.ActionBar ab = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (ab != null ) {
+            if(mUsername!=null)
+                ab.setSubtitle(mUsername);
+        }
+
         fabAdd.setOnClickListener(new FloatingAddAction());
+
         return v;
     }
 

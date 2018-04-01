@@ -2,13 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:icon="@android:drawable/ic_menu_upload"
+        android:id="@+id/upload_tasks"
+        android:title="@string/upload_tasks"
+        app:showAsAction="ifRoom"/>
+    <item
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:id="@+id/delete_uploaded_tasks"
         android:title="@string/delete_uploaded_tasks"
         app:showAsAction="never|withText"/>
     <item
-        android:icon="@android:drawable/ic_menu_upload"
-        android:id="@+id/upload_tasks"
-        android:title="@string/upload_tasks"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:id="@+id/sign_out"
+        android:title="@string/signout"
         app:showAsAction="never|withText"/>
 </menu>

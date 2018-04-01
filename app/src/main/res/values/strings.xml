@@ -31,4 +31,5 @@
     <string name="hamlet_angel">Hamlet Angel</string>
     <string name="account_type">com.codedleaf.habitica</string>
     <string name="upload_tasks">Upload Tasks</string>
+    <string name="signout">SignOut</string>
 </resources>
