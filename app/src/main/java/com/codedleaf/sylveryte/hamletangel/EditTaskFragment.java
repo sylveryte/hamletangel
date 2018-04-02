@@ -132,9 +132,9 @@ public class EditTaskFragment extends Fragment {
 
                 Dialog dialog =new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        i1+=1;
-                        mHamletTask.setDate(i2+"/"+i1+"/"+i);
+                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                        month+=1;
+                        mHamletTask.setDate(year+"-"+month+"-"+dayOfMonth);
 
                         mDate.setText(mHamletTask.getDate());
                         updateUi();
