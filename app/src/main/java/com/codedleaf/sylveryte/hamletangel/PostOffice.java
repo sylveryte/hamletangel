@@ -214,6 +214,7 @@ public class PostOffice extends AbstractAccountAuthenticator {
                         if(result!=null) {
                            task.setUploaded();
                             task.setTaskId(result);
+                            AngelLab.getAngelLab(mContext).addUpdateTask(task);
                         }
                     }
                 }
